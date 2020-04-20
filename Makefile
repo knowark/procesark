@@ -7,9 +7,12 @@ test:
 	pytest
 
 PROJECT = procesark
+COVFILE ?= .coverage
 
 coverage: 
-	pytest -x --cov=$(PROJECT) tests/ --cov-report term-missing -s -vv
+	export COVERAGE_FILE=$(COVFILE); pytest --cov-branch \
+	--cov=$(PROJECT) tests/ --cov-report term-missing -x -s -vv \
+	-W ignore::DeprecationWarning -o cache_dir=/tmp/serproser/cache
 
 serve:
 	python -m $(PROJECT) serve
