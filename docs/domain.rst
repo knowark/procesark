@@ -45,7 +45,7 @@ inform about its beginning, state and completion.
         <tr><td><i>Run</i></td></tr>
         <tr><td port="id">id</td></tr>
         <tr><td port="process_id">process_id</td></tr>
-        <tr><td port="job_id">process_id</td></tr>
+        <tr><td port="job_id">job_id</td></tr>
         </table>>]
 
         Allocation:process_id -> Process:id
