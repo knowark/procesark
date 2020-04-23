@@ -6,3 +6,4 @@ class Allocation(Entity):
         super().__init__(**attributes)
         self.process_id = attributes['process_id']
         self.job_id = attributes['job_id']
+        self.sequence = attributes.get('sequence', 1)
