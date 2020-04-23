@@ -48,13 +48,13 @@ class StandardScheduler(Scheduler):
             self._task = asyncio.ensure_future(self._run())
 
     async def stop(self) -> None:
-        if self.active:
+        if self.active and self._task is not None:
             self.active = False
             self._task.cancel()
             with suppress(asyncio.CancelledError):
                 await self._task
 
-    async def _run(self):
+    async def _run(self) -> None:
         loop = asyncio.get_event_loop()
         while True:
             now = datetime.now(timezone.utc)
