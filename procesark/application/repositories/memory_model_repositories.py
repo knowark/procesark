@@ -1,8 +1,9 @@
+from ..models import Process, Job, Allocation, Trigger, Run
 from .repository import Repository
 from .memory_repository import MemoryRepository
 
 
-class AllocationRepository(Repository):
+class AllocationRepository(Repository[Allocation]):
     """Allocation Repository"""
 
 
@@ -11,7 +12,7 @@ class MemoryAllocationRepository(
     """Memory Allocation Repository"""
 
 
-class JobRepository(Repository):
+class JobRepository(Repository[Job]):
     """Job Repository"""
 
 
@@ -20,7 +21,7 @@ class MemoryJobRepository(
     """Memory Job Repository"""
 
 
-class ProcessRepository(Repository):
+class ProcessRepository(Repository[Process]):
     """Process Repository"""
 
 
@@ -29,7 +30,7 @@ class MemoryProcessRepository(
     """Memory Process Repository"""
 
 
-class RunRepository(Repository):
+class RunRepository(Repository[Run]):
     """Run Repository"""
 
 
@@ -38,7 +39,7 @@ class MemoryRunRepository(
     """Memory Run Repository"""
 
 
-class TriggerRepository(Repository):
+class TriggerRepository(Repository[Trigger]):
     """Trigger Repository"""
 
 

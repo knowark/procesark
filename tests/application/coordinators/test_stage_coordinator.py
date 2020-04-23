@@ -2,7 +2,8 @@ from pytest import fixture
 from procesark.application.models import Process, Job, Allocation
 from procesark.application.utilities import QueryParser
 from procesark.application.repositories import (
-    MemoryProcessRepository, MemoryJobRepository, MemoryAllocationRepository)
+    MemoryProcessRepository, MemoryJobRepository, MemoryAllocationRepository,
+    MemoryTriggerRepository)
 from procesark.application.coordinators import StageCoordinator
 
 
@@ -39,10 +40,18 @@ def allocation_repository(tenant_provider, auth_provider):
 
 
 @fixture
+def trigger_repository(tenant_provider, auth_provider):
+    trigger_repository = MemoryTriggerRepository(
+        QueryParser(), tenant_provider, auth_provider)
+    return trigger_repository
+
+
+@fixture
 def stage_coordinator(process_repository, job_repository,
-                      allocation_repository):
+                      allocation_repository, trigger_repository):
     return StageCoordinator(
-        process_repository, job_repository, allocation_repository)
+        process_repository, job_repository, allocation_repository,
+        trigger_repository)
 
 
 def test_stage_coordinator_instantiation(
@@ -80,3 +89,19 @@ async def test_stage_coordinator_set_processes(stage_coordinator):
     assert len(processes) == 4
     for record in process_dicts:
         assert record['id'] in processes
+
+
+async def test_stage_coordinator_set_triggers(stage_coordinator):
+    trigger_dicts = [
+        {'id': '001', 'process_id': '001'},
+        {'id': '002', 'process_id': '002'}
+    ]
+
+    await stage_coordinator.set_triggers(trigger_dicts)
+
+    triggers = stage_coordinator.trigger_repository.data['default']
+
+    assert len(trigger_dicts) == 2
+
+    for record in trigger_dicts:
+        assert record['id'] in triggers
