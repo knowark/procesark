@@ -65,3 +65,18 @@ async def test_stage_coordinator_allocate(stage_coordinator):
     assert len(allocations) == 4
     for record in allocation_dicts:
         assert record['id'] in allocations
+
+
+async def test_stage_coordinator_set_processes(stage_coordinator):
+    process_dicts = [
+        {'id': '003', 'name': 'Update System Dependencies'},
+        {'id': '004', 'name': 'Deploy Website'},
+    ]
+
+    await stage_coordinator.set_processes(process_dicts)
+
+    processes = stage_coordinator.process_repository.data['default']
+
+    assert len(processes) == 4
+    for record in process_dicts:
+        assert record['id'] in processes

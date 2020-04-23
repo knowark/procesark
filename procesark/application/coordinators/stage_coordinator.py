@@ -1,4 +1,4 @@
-from ..models import Allocation
+from ..models import Process, Allocation
 from ..utilities import RecordList
 from ..repositories import (
     ProcessRepository, JobRepository, AllocationRepository)
@@ -11,6 +11,10 @@ class StageCoordinator:
         self.process_repository = process_repository
         self.job_repository = job_repository
         self.allocation_repository = allocation_repository
+
+    async def set_processes(self, process_records: RecordList) -> None:
+        await self.process_repository.add([
+            Process(**record) for record in process_records])
 
     async def allocate(self, allocation_records: RecordList) -> None:
         process_ids = [record["process_id"] for record in allocation_records]
