@@ -4,7 +4,7 @@
   tasks:
     - name: Create Procesark System User
       user:
-        name: Procesark
+        name: procesark
         home: /opt/procesark
         system: yes
         shell: /bin/bash
