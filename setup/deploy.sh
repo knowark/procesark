@@ -1,8 +1,10 @@
 #!/bin/bash
 
-CONTAINER="procesark"
+[[ $# != 1 ]] && echo "Please provide a container name" && exit
 
-echo "Deploying development LXD container..."
+CONTAINER="$1"
+
+echo "Deploying LXD container..."
 
 lxc launch ubuntu:bionic $CONTAINER
 lxc config device add $CONTAINER home disk source=$HOME path=/mnt/home
