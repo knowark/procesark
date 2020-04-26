@@ -1,5 +1,6 @@
 ---
 - name: Deploy Procesark Server
+  hosts: all
   tasks:
     - name: Create Procesark System User
       user:
