@@ -1,8 +1,8 @@
 #!/bin/bash
 
-[[ $# != 1 ]] && echo "Please provide a container name" && exit
-
-CONTAINER="$1"
+CONTAINER="procesark"
+REPOSITORY="https://github.com/knowark/procesark"
+PLAYBOOK="setup/local.yml"
 
 echo "Deploying LXD container..."
 
@@ -21,5 +21,4 @@ lxc exec $CONTAINER -- apt autoremove -y
 echo "Deploy with Ansible Pull..."
 
 lxc exec $CONTAINER -- ansible-pull --connection=local -i 127.0.0.1, \
-    -U https://github.com/knowark/procesark \
-    -d /var/git/procesark setup/local.yml > deploy.log
+    -U $REPOSITORY -d /var/git/$CONTAINER $PLAYBOOK > deploy.log
