@@ -22,4 +22,4 @@ echo "Deploy with Ansible Pull..."
 
 lxc exec $CONTAINER -- ansible-pull --connection=local -i 127.0.0.1, \
     -U https://github.com/knowark/procesark \
-    -d /var/git/procesark setup/local.yml
+    -d /var/git/procesark setup/local.yml > deploy.log

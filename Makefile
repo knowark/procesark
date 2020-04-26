@@ -17,6 +17,9 @@ coverage:
 serve:
 	python -m $(PROJECT) serve
 
+deploy:
+	./setup/deploy.sh procesark
+
 PART ?= patch
 
 version:
