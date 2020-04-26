@@ -1,0 +1,38 @@
+- name: Create Application User
+  user:
+    name: "{{ app_user }}"
+    home: "{{ app_home }}"
+    system: yes
+    shell: /bin/bash
+
+- name: Create Configuration Directory
+  file:
+    path: "{{ app_configuration_directory }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0775
+
+- name: Create Log Directory
+  file:
+    path: "{{ app_log_directory }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0775
+
+- name: Create Data Directory
+  file:
+    path: "{{ app_data_directory }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0775
+
+- name: Create Backup Directory
+  file:
+    path: "{{ app_backup_directory }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0775

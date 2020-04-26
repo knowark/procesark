@@ -1,10 +1,8 @@
 ---
 - name: Deploy Procesark Server
   hosts: all
-  tasks:
-    - name: Create Procesark System User
-      user:
-        name: procesark
-        home: /opt/procesark
-        system: yes
-        shell: /bin/bash
+  vars:
+    app_user: procesark
+  roles:
+    - system
+    - app
