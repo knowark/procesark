@@ -18,7 +18,7 @@ serve:
 	python -m $(PROJECT) serve
 
 deploy:
-	./setup/deploy.sh procesark
+	./setup/deploy.sh
 
 PART ?= patch
 
