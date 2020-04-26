@@ -21,4 +21,4 @@ lxc exec $CONTAINER -- apt autoremove -y
 echo "Deploy with Ansible Pull..."
 
 lxc exec $CONTAINER -- ansible-pull --connection=local -i 127.0.0.1, \
-    -U $REPOSITORY -d /var/git/$CONTAINER $PLAYBOOK > deploy.log
+    -U $REPOSITORY -d /var/git/$CONTAINER $PLAYBOOK 2>&1 | tee deploy.log
