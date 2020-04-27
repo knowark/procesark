@@ -8,7 +8,8 @@ from procesark.infrastructure.factories import (
 config = DEVELOPMENT_CONFIG
 
 test_tuples = [
-    ('BaseFactory', ['base'])
+    ('BaseFactory', ['base']),
+    ('CheckFactory', ['base', 'check'])
 ]
 
 
