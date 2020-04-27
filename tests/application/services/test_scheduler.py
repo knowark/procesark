@@ -68,6 +68,8 @@ async def test_standard_scheduler_start() -> None:
     assert calls.count(trigger_1) == 2
     assert calls.count(trigger_2) == 1
 
+    await scheduler.stop()
+
 
 async def test_standard_scheduler_stop() -> None:
     scheduler = StandardScheduler()

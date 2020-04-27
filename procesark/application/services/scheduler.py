@@ -55,7 +55,6 @@ class StandardScheduler(Scheduler):
                 await self._task
 
     async def _run(self) -> None:
-        loop = asyncio.get_event_loop()
         while True:
             now = datetime.now(timezone.utc)
             target = now.replace(
