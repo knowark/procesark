@@ -1,46 +1,48 @@
-from collections import defaultdict
-from abc import ABC, abstractmethod
+from typing import Dict, Any
 
 
-class Config(defaultdict, ABC):
-    @abstractmethod
-    def __init__(self):
-        self["mode"] = "BASE"
-        self["port"] = 6291
-        self['strategies'] = ['base']
-        self['strategy'] = {}
-        self["tenancy"] = {
+Config = Dict[str, Any]
+
+
+BASE: Config = {
+    "mode": "BASE",
+    "port": 6291,
+    "strategies": ["base"],
+    "strategy": {},
+    "tenancy": {
+        "dsn": ""
+    },
+    "zones": {
+        "default": {
             "dsn": ""
         }
-        self["zones"] = {
-            "default": {
-                "dsn": ""
-            }
+    }
+}
+
+DEVELOPMENT_CONFIG: Config = {**BASE, **{
+    "mode": "DEV",
+    "factory": "CheckFactory",
+    "strategies": ["base", "check"],
+    "tenancy": {
+        "dsn": "postgresql://procesark:procesark@localhost/procesark"
+    },
+    "zones": {
+        "default": {
+            "dsn": "postgresql://procesark:procesark@localhost/procesark"
         }
+    }
+}}
 
-
-class DevelopmentConfig(Config):
-    def __init__(self):
-        super().__init__()
-        self["mode"] = "DEV"
-        self['factory'] = 'CheckFactory'
-        self['strategies'].extend(['check'])
-
-
-class ProductionConfig(Config):
-    def __init__(self):
-        super().__init__()
-        self["mode"] = "PROD"
-        self["factory"] = "SqlFactory"
-        self['strategies'].extend(['sql'])
-        self["tenancy"] = {
-            "dsn": (
-                "postgresql://questionark:questionark"
-                "@localhost/questionark")
+PRODUCTION_CONFIG: Config = {**BASE, **{
+    "mode": "PROD",
+    "factory": "SqlFactory",
+    "strategies": ["base", "sql"],
+    "tenancy": {
+        "dsn": "postgresql://procesark:procesark@localhost/procesark"
+    },
+    "zones": {
+        "default": {
+            "dsn": "postgresql://procesark:procesark@localhost/procesark"
         }
-        self["zones"] = {
-            "default": {
-                "dsn": ("postgresql://questionark:questionark"
-                        "@localhost/questionark")
-            }
-        }
+    }
+}}

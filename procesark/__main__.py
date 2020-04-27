@@ -6,13 +6,17 @@ import sys
 import logging
 import asyncio
 import uvloop
-from .infrastructure.config import build_config
+from json import loads
+from pathlib import Path
+from .infrastructure.config import Config, PRODUCTION_CONFIG
 from .infrastructure.cli import Cli
 
 
 async def main(args=None):  # pragma: no cover
-    config_path = os.environ.get('PROCESARK_CONFIG', 'config.json')
-    config = build_config('PROD', config_path)
+    config_path = Path(os.environ.get('PROCESARK_CONFIG', 'config.json'))
+    config = loads(config_path.read_text()) if config_path.is_file() else {}
+    config: Config = {**PRODUCTION_CONFIG, **config}
+
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
                         format='%(message)s')
 

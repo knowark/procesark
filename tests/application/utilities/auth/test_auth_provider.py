@@ -5,7 +5,7 @@ from procesark.application.utilities import (
 
 
 def test_auth_provider_repository_methods():
-    abstract_methods = AuthProvider.__abstractmethods__
+    abstract_methods = AuthProvider.__abstractmethods__  # type: ignore
 
     assert 'setup' in abstract_methods
     assert 'user' in abstract_methods
