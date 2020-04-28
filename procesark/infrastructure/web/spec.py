@@ -1,7 +1,7 @@
 from apispec import APISpec, BasePlugin
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec.yaml_utils import load_yaml_from_docstring
-from .schemas import TriggerSchema
+from .schemas import TriggerSchema, ProcessSchema
 from ... import __version__
 
 
@@ -34,9 +34,9 @@ def create_spec() -> APISpec:
         openapi_version="3.0.2",
         plugins=[MarshmallowPlugin(), ResourcePlugin()],
         info=dict(
-            description="Questionark Server",
+            description="Procesark Server",
             contact=dict(
-                name="Questionark",
+                name="Procesark",
                 url="https://www.knowark.com"
             )))
 
@@ -47,3 +47,4 @@ def create_spec() -> APISpec:
 
 def _register_schemas(spec):
     spec.components.schema("Trigger", schema=TriggerSchema)
+    spec.components.schema("Process", schema=ProcessSchema)

@@ -2,7 +2,7 @@ from typing import Any
 from aiohttp import web
 from injectark import Injectark
 from .resources import (
-    RootResource)
+    RootResource, ProcessResource)
 from .spec import create_spec
 
 
@@ -12,6 +12,12 @@ def create_api(app: web.Application, injector: Injectark) -> None:
 
     # Root Resource
     bind_routes(app, '/', RootResource(spec))
+
+    # Process Resource
+    bind_routes(app, '/processes', ProcessResource(injector))
+    spec.path(path="/processes", operations={
+        'head': {}, 'get': {}, 'put': {}, 'delete': {}},
+        resource=ProcessResource)
 
 
 def bind_routes(app: web.Application, path: str, resource: Any):

@@ -1,13 +1,11 @@
 check = {
-    # --- PROVIDERS ---
-    "QueryParser": {
-        "method": "query_parser"
-    },
     "TenantProvider": {
-        "method": "standard_tenant_provider"
+        "method": "check_tenant_provider"
     },
     "AuthProvider": {
-        "method": "standard_auth_provider"
+        "method": "check_auth_provider"
     },
-
+    "TenantSupplier": {
+        "method": "check_tenant_supplier"
+    }
 }
