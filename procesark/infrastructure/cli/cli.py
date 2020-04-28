@@ -5,6 +5,7 @@ from injectark import Injectark
 from typing import List, Dict
 from ... import __version__
 from ..config import Config
+from ..web import create_app, run_app
 
 
 logging.basicConfig(level=logging.INFO)
@@ -24,6 +25,12 @@ class Cli:
     async def parse(self, argv: List[str]) -> Namespace:
         subparsers = self.parser.add_subparsers()
 
+        # Serve
+        serve_parser = subparsers.add_parser(
+            'serve', help='Start HTTP server.')
+        serve_parser.add_argument('-p', '--port')
+        serve_parser.set_defaults(func=self.serve)
+
         # Version
         version_parser = subparsers.add_parser('version')
         version_parser.set_defaults(func=self.version)
@@ -33,6 +40,13 @@ class Cli:
             self.parser.exit()
 
         return self.parser.parse_args(argv)
+
+    async def serve(self, options_dict: Dict[str, str]) -> None:
+        logger.info('SERVE')
+        port = options_dict.get('port') or self.config['port']
+        app = create_app(self.config, self.injector)
+        await run_app(app, port)
+        logger.info('END SERVE')
 
     async def version(self, options_dict: Dict[str, str]):
         logger.info('<< VERSION >>')

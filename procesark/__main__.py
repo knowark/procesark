@@ -8,7 +8,9 @@ import asyncio
 import uvloop
 from json import loads
 from pathlib import Path
+from injectark import Injectark
 from .infrastructure.config import Config, PRODUCTION_CONFIG
+from .infrastructure.factories import strategy_builder, factory_builder
 from .infrastructure.cli import Cli
 
 
@@ -20,11 +22,11 @@ async def main(args=None):  # pragma: no cover
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
                         format='%(message)s')
 
-    # factory = build_factory(config)
-    # strategy = build_strategy(config['strategies'], config['strategy'])
-    # injector = Injectark(strategy=strategy, factory=factory)
+    factory = factory_builder.build(config)
+    strategy = strategy_builder.build(
+        config['strategies'], config['strategy'])
+    injector = Injectark(strategy=strategy, factory=factory)
     # injector['SetupSupplier'].setup()
-    injector = None
 
     await Cli(config, injector).run(args or [])
 

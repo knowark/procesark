@@ -4,6 +4,7 @@ from injectark import Injectark
 from procesark.infrastructure.factories import (
     strategy_builder, factory_builder)
 from procesark.infrastructure.cli import Cli
+from procesark.infrastructure.cli import cli as cli_module
 from procesark.infrastructure.config import DEVELOPMENT_CONFIG
 
 
@@ -60,3 +61,19 @@ async def test_cli_parse_empty_argv(cli):
 async def test_cli_version(cli):
     options_dict = {}
     assert await cli.version(options_dict) is None
+
+
+async def test_cli_serve(cli, monkeypatch):
+    called = False
+    options_dict = {'port': 8080}
+
+    async def mock_run_app(app, port):
+        nonlocal called
+        called = True
+
+    monkeypatch.setattr(
+        cli_module, 'run_app', mock_run_app)
+
+    result = await cli.serve(options_dict)
+
+    assert called

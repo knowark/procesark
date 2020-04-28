@@ -35,8 +35,8 @@ DEVELOPMENT_CONFIG: Config = {**BASE, **{
 
 PRODUCTION_CONFIG: Config = {**BASE, **{
     "mode": "PROD",
-    "factory": "SqlFactory",
-    "strategies": ["base", "sql"],
+    "factory": "CheckFactory",
+    "strategies": ["base", "check"],
     "tenancy": {
         "dsn": "postgresql://procesark:procesark@localhost/procesark"
     },
