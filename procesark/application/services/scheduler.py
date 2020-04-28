@@ -1,7 +1,7 @@
 import asyncio
 from abc import ABC, abstractmethod
 from contextlib import suppress
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Callable, Awaitable, List, Any
 from ..models import Trigger
 from ..utilities import cronable
@@ -57,8 +57,7 @@ class StandardScheduler(Scheduler):
     async def _run(self) -> None:
         while True:
             now = datetime.now(timezone.utc)
-            target = now.replace(
-                second=now.second + self.tick, microsecond=0)
+            target = now.replace(microsecond=0) + timedelta(seconds=self.tick)
             delay = (target - now).total_seconds()
             await asyncio.sleep(delay)
             await self._notify(target)
