@@ -71,7 +71,7 @@ class ProcessResource:
         process_records = ProcessSchema(
             many=True).loads(await request.text())
 
-        result = await self.stage_coordinator.set_processes(process_records)
+        await self.stage_coordinator.set_processes(process_records)
 
         return web.Response(status=200)
 
@@ -83,7 +83,7 @@ class ProcessResource:
           - Processes
         responses:
           204:
-            description: "Processe deleted."
+            description: "Processes deleted."
         """
 
         ids = []
@@ -95,6 +95,6 @@ class ProcessResource:
         if body:
             ids.extend(loads(await request.text()))
 
-        result = await self.stage_coordinator.delete_processes(ids)
+        await self.stage_coordinator.delete_processes(ids)
 
         return web.Response(status=204)
