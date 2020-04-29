@@ -1,8 +1,8 @@
 from injectark import Injectark
 from aiohttp import web
-from json import dumps, loads
+from json import dumps
 from ..schemas import ProcessSchema
-from ..helpers import get_request_filter
+from ..helpers import get_request_filter, get_request_ids
 
 
 class ProcessResource:
@@ -86,14 +86,7 @@ class ProcessResource:
             description: "Processes deleted."
         """
 
-        ids = []
-        uri_id = request.match_info.get('id')
-        if uri_id:
-            ids.append(uri_id)
-
-        body = await request.text()
-        if body:
-            ids.extend(loads(await request.text()))
+        ids = await get_request_ids(request)
 
         await self.stage_coordinator.delete_processes(ids)
 

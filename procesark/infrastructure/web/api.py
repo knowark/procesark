@@ -29,5 +29,4 @@ def bind_routes(app: web.Application, path: str, resource: Any):
             continue
         if method in identified_methods:
             app.router.add_route(method, path + "/{id}", handler)
-        if method in general_methods:
-            app.router.add_route(method, path, handler)
+        app.router.add_route(method, path, handler)
