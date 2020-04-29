@@ -1,8 +1,10 @@
 import asyncio
+from typing import Optional
 from abc import ABC, abstractmethod
+from asyncio.futures import Future
 from contextlib import suppress
 from datetime import datetime, timedelta, timezone
-from typing import Callable, Awaitable, List, Any
+from typing import Set, Callable, Awaitable, List, Any
 from ..models import Trigger
 from ..utilities import cronable
 
@@ -30,11 +32,11 @@ class Scheduler(ABC):
 
 class StandardScheduler(Scheduler):
     def __init__(self, tick: int = 1) -> None:
-        self.triggers = set()
-        self.subscribers = set()
+        self.triggers: Set[Trigger] = set()
+        self.subscribers: Set[Callback] = set()
         self.active = False
         self.tick = max(tick, 1)
-        self._task = None
+        self._task: Optional[Future] = None
 
     async def schedule(self, triggers: List[Trigger]) -> None:
         self.triggers.update(triggers)

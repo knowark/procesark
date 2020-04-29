@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Any
+from typing import List, Optional, Any
 from ..models import Process
 
 
@@ -15,8 +15,8 @@ class Executor(ABC):
 
 class MemoryExecutor(Executor):
     def __init__(self, result=None) -> None:
-        self.executed = None
-        self.invoked = None
+        self.executed: Optional[List[Process]] = None
+        self.invoked: Optional[List[Process]] = None
         self.result = result or {}
 
     async def execute(self, processes: List[Process]) -> None:

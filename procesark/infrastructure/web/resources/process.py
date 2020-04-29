@@ -11,7 +11,7 @@ class ProcessResource:
         self.stage_coordinator = self.injector['StageCoordinator']
         self.procesark_informer = self.injector['ProcesarkInformer']
 
-    async def head(self, request) -> int:
+    async def head(self, request) -> web.Response:
         """
         ---
         summary: Return processes HEAD headers.
@@ -27,7 +27,7 @@ class ProcessResource:
 
         return web.Response(headers=headers)
 
-    async def get(self, request: web.Request):
+    async def get(self, request: web.Request) -> web.Response:
         """
         ---
         summary: Return all processes.
@@ -52,7 +52,7 @@ class ProcessResource:
 
         return web.json_response(processes, dumps=dumps)
 
-    async def put(self, request: web.Request):
+    async def put(self, request: web.Request) -> web.Response:
         """
         ---
         summary: Create or update process.
@@ -75,7 +75,7 @@ class ProcessResource:
 
         return web.Response(status=200)
 
-    async def delete(self, request: web.Request):
+    async def delete(self, request: web.Request) -> web.Response:
         """
         ---
         summary: Delete the specified process.
