@@ -1,8 +1,9 @@
+from typing import List
 from ..models import Process, Allocation, Trigger
 from ..utilities import RecordList
 from ..repositories import (
-    ProcessRepository, JobRepository, AllocationRepository,
-    TriggerRepository)
+    ProcessRepository, JobRepository,
+    AllocationRepository, TriggerRepository)
 
 
 class StageCoordinator:
@@ -42,3 +43,8 @@ class StageCoordinator:
             Allocation(**record) for record in allocation_records
             if record['process_id'] in process_set
             and record['job_id'] in job_set])
+
+    async def delete_processes(self, process_ids: List[str]) -> None:
+        processes = await self.process_repository.search(
+            [('id', 'in', process_ids)])
+        await self.process_repository.remove(processes)

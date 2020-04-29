@@ -61,3 +61,12 @@ async def test_stage_coordinator_set_triggers(stage_coordinator):
 
     for record in trigger_dicts:
         assert record['id'] in triggers
+
+
+async def test_stage_coordinator_delete_processes(stage_coordinator):
+    await stage_coordinator.delete_processes(['001'])
+
+    processes = stage_coordinator.process_repository.data['default']
+
+    assert len(processes) == 1
+    assert '002' in processes
